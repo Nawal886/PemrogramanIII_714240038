@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get Mahasiswa By NPM
+url: ""
+method: GET
+order: 3181654136900266

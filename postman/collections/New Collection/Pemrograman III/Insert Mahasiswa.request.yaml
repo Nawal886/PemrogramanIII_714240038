@@ -1,0 +1,5 @@
+$kind: http-request
+name: Insert Mahasiswa
+url: ""
+method: POST
+order: 4111612298368493
