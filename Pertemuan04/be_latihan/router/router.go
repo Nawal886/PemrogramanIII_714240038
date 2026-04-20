@@ -16,6 +16,8 @@ func SetupRoutes(app *fiber.App) {
 
 	mahasiswa := app.Group("/api/mahasiswa")
 	mahasiswa.Get("/", handler.GetAllMahasiswa)
-
-	
+	mahasiswa.Get("/:npm", handler.GetMahasiswaByNPM)
+	mahasiswa.Post("/", handler.InsertMahasiswa)
+	mahasiswa.Put("/:npm", handler.UpdateMahasiswa)
+	mahasiswa.Delete("/:npm", handler.DeleteMahasiswa)
 }
