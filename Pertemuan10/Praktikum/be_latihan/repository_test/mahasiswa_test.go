@@ -26,11 +26,11 @@ func TestInsertMahasiswa(t *testing.T) {
 
 	mhs := model.Mahasiswa{
 		NPM:    npm,
-		Nama:   "Curtois Jones",
-		Prodi:  "Teknik Telekomunikasi Digital",
+		Nama:   "Ucup Just Me",
+		Prodi:  "Bahasa Inggris",
 		Alamat: "Jakarta",
 		Hobi:   []string{"Bola"},
-		NoHP:   "08173882421",
+		NoHP:   "08173885432",
 	}
 
 	_, err := repository.InsertMahasiswa(&mhs)

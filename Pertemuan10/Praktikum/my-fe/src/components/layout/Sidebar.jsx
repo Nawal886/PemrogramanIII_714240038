@@ -8,27 +8,18 @@ const menuItems = [
     label: "Dashboard",
     description: "Ringkasan data kelas",
     icon: "🏠",
+    to: "/dashboard",
   },
   {
     id: "mahasiswa",
     label: "Mahasiswa",
     description: "Daftar data mahasiswa",
     icon: "🎓",
-  },
-  {
-    id: "datadiri",
-    label: "Data Diri",
-    description: "Informasi data diri",
-    icon: "👤",
+    to: "/mahasiswa",
   },
 ];
 
-export default function Sidebar({
-  activePage,
-  isOpen,
-  onClose,
-  onSelectPage,
-}) {
+export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {isOpen && (
@@ -67,8 +58,8 @@ export default function Sidebar({
                 icon={item.icon}
                 label={item.label}
                 description={item.description}
-                isActive={activePage === item.id}
-                onClick={() => onSelectPage(item.id)}
+                to={item.to}
+                onClick={onClose}
               />
             </li>
           ))}
