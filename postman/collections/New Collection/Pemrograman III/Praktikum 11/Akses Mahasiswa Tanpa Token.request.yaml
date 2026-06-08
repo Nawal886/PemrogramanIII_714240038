@@ -1,0 +1,5 @@
+$kind: http-request
+name: Akses Mahasiswa Tanpa Token
+url: ""
+method: GET
+order: 3496992268160016
