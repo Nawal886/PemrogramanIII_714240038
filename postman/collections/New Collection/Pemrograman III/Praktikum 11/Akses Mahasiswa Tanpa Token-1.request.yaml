@@ -1,0 +1,9 @@
+$kind: http-request
+name: Akses Mahasiswa Tanpa Token
+url: http://127.0.0.1:3000/api/mahasiswa
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoidXNlciIsInN1YiI6InVzZXIiLCJleHAiOjE3ODA5MTQ5OTEsImlhdCI6MTc4MDkwNzc5MX0.nlj8PVRmTJnHOJo8p665tbnl7maajTHRRj6yX4f3EMM
+order: 3637
