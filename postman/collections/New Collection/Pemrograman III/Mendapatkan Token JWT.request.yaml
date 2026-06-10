@@ -1,5 +1,0 @@
-$kind: http-request
-name: Mendapatkan Token JWT
-url: ""
-method: GET
-order: 7000

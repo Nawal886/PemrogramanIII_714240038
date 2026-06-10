@@ -1,5 +1,0 @@
-$kind: http-request
-name: Insert Mahasiswa
-url: ""
-method: POST
-order: 5000

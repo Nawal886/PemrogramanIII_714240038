@@ -1,5 +1,0 @@
-$kind: http-request
-name: Get Mahasiswa By NPM search
-url: ""
-method: GET
-order: 2000

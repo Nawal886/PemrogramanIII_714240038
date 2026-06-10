@@ -1,5 +1,0 @@
-$kind: http-request
-name: Melihat Daftar Paket
-url: ""
-method: GET
-order: 6000
