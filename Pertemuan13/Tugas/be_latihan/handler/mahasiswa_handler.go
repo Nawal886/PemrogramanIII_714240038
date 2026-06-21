@@ -16,8 +16,8 @@ import (
 // @Security BearerAuth
 // @Accept json
 // @Produce json
-// @Success 200 {object} model.Response
-// @Failure 401 {object} model.Response
+// @Success 200 {object} model.SuccessResponse
+// @Failure 401 {object} model.UnauthorizedResponse
 // @Failure 500 {object} model.Response
 // @Router /api/mahasiswa/ [get]
 func GetAllMahasiswa(c *fiber.Ctx) error {
@@ -43,10 +43,10 @@ func GetAllMahasiswa(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param npm path int true "NPM mahasiswa"
-// @Success 200 {object} model.Response
+// @Success 200 {object} model.SuccessResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
+// @Failure 403 {object} model.ForbiddenResponse
 // @Failure 404 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Router /api/mahasiswa/{npm} [get]
@@ -87,10 +87,10 @@ func GetMahasiswaByNPM(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param request body model.Mahasiswa true "Payload data mahasiswa"
-// @Success 201 {object} model.Response
+// @Success 201 {object} model.CreatedResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
+// @Failure 403 {object} model.ForbiddenResponse
 // @Failure 500 {object} model.Response
 // @Router /api/mahasiswa/ [post]
 func InsertMahasiswa(c *fiber.Ctx) error {
@@ -125,10 +125,10 @@ func InsertMahasiswa(c *fiber.Ctx) error {
 // @Produce json
 // @Param npm path int true "NPM mahasiswa"
 // @Param request body model.Mahasiswa true "Payload data mahasiswa"
-// @Success 200 {object} model.Response
+// @Success 200 {object} model.SuccessResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
+// @Failure 403 {object} model.ForbiddenResponse
 // @Failure 404 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Router /api/mahasiswa/{npm} [put]
@@ -179,10 +179,10 @@ func UpdateMahasiswa(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param npm path int true "NPM mahasiswa"
-// @Success 200 {object} model.Response
+// @Success 200 {object} model.SuccessResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
-// @Failure 403 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
+// @Failure 403 {object} model.ForbiddenResponse
 // @Failure 500 {object} model.Response
 // @Router /api/mahasiswa/{npm} [delete]
 func DeleteMahasiswa(c *fiber.Ctx) error {

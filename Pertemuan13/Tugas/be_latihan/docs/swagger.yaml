@@ -12,18 +12,6 @@ definitions:
         example: admin
         type: string
     type: object
-  model.AuthUserResponse:
-    properties:
-      id:
-        example: 2f5d7e2a-1234-4567-8901-abcdefabcdef
-        type: string
-      role:
-        example: admin
-        type: string
-      username:
-        example: admin
-        type: string
-    type: object
   model.ChangePasswordRequest:
     properties:
       new_password:
@@ -33,13 +21,18 @@ definitions:
         example: admin123
         type: string
     type: object
-  model.LoginResponse:
+  model.CreatedResponse:
     properties:
-      token:
-        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx
+      data: {}
+      message:
+        example: data berhasil ditambahkan
         type: string
-      user:
-        $ref: '#/definitions/model.AuthUserResponse'
+    type: object
+  model.ForbiddenResponse:
+    properties:
+      message:
+        example: user tidak memiliki akses untuk fitur ini
+        type: string
     type: object
   model.Mahasiswa:
     properties:
@@ -79,6 +72,19 @@ definitions:
         example: detail pesan
         type: string
     type: object
+  model.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        example: data berhasil diambil
+        type: string
+    type: object
+  model.UnauthorizedResponse:
+    properties:
+      message:
+        example: token tidak valid atau tidak ditemukan
+        type: string
+    type: object
 host: 127.0.0.1:3000
 info:
   contact:
@@ -101,11 +107,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.SuccessResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -133,7 +139,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.CreatedResponse'
         "400":
           description: Bad Request
           schema:
@@ -141,11 +147,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.ForbiddenResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -173,7 +179,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -181,11 +187,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.ForbiddenResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -212,7 +218,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -220,11 +226,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.ForbiddenResponse'
         "404":
           description: Not Found
           schema:
@@ -261,7 +267,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -269,11 +275,11 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.ForbiddenResponse'
         "404":
           description: Not Found
           schema:
@@ -291,10 +297,9 @@ paths:
     put:
       consumes:
       - application/json
-      description: Mengganti password user yang sedang login. Membutuhkan JWT Bearer
-        Token.
+      description: Mengubah password user yang sedang login berdasarkan token JWT.
       parameters:
-      - description: Payload ganti password
+      - description: Payload ubah password
         in: body
         name: request
         required: true
@@ -306,13 +311,17 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.SuccessResponse'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/model.Response'
         "401":
           description: Unauthorized
+          schema:
+            $ref: '#/definitions/model.UnauthorizedResponse'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.Response'
         "500":
@@ -321,7 +330,7 @@ paths:
             $ref: '#/definitions/model.Response'
       security:
       - BearerAuth: []
-      summary: Ganti password user
+      summary: Ubah password user
       tags:
       - Auth
   /login:
@@ -343,7 +352,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.LoginResponse'
+            $ref: '#/definitions/model.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -351,7 +360,7 @@ paths:
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/model.Response'
+            $ref: '#/definitions/model.UnauthorizedResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -378,7 +387,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/model.AuthUserResponse'
+            $ref: '#/definitions/model.CreatedResponse'
         "400":
           description: Bad Request
           schema:

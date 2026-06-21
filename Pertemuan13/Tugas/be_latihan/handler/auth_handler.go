@@ -19,7 +19,7 @@ import (
 // @Accept json
 // @Produce json
 // @Param request body model.AuthRequest true "Payload register user"
-// @Success 201 {object} model.AuthUserResponse
+// @Success 201 {object} model.CreatedResponse
 // @Failure 400 {object} model.Response
 // @Failure 409 {object} model.Response
 // @Failure 500 {object} model.Response
@@ -84,9 +84,9 @@ func Register(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param request body model.AuthRequest true "Payload login user"
-// @Success 200 {object} model.LoginResponse
+// @Success 200 {object} model.SuccessResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
 // @Failure 500 {object} model.Response
 // @Router /login [post]
 func Login(c *fiber.Ctx) error {
@@ -140,16 +140,17 @@ func Login(c *fiber.Ctx) error {
 }
 
 // ChangePassword godoc
-// @Summary Ganti password user
-// @Description Mengganti password user yang sedang login. Membutuhkan JWT Bearer Token.
+// @Summary Ubah password user
+// @Description Mengubah password user yang sedang login berdasarkan token JWT.
 // @Tags Auth
 // @Security BearerAuth
 // @Accept json
 // @Produce json
-// @Param request body model.ChangePasswordRequest true "Payload ganti password"
-// @Success 200 {object} model.Response
+// @Param request body model.ChangePasswordRequest true "Payload ubah password"
+// @Success 200 {object} model.SuccessResponse
 // @Failure 400 {object} model.Response
-// @Failure 401 {object} model.Response
+// @Failure 401 {object} model.UnauthorizedResponse
+// @Failure 404 {object} model.Response
 // @Failure 500 {object} model.Response
 // @Router /change-password [put]
 func ChangePassword(c *fiber.Ctx) error {

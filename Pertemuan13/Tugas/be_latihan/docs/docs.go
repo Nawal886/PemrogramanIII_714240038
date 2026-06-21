@@ -40,13 +40,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "500": {
@@ -89,7 +89,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.CreatedResponse"
                         }
                     },
                     "400": {
@@ -101,13 +101,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.ForbiddenResponse"
                         }
                     },
                     "500": {
@@ -150,7 +150,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "400": {
@@ -162,13 +162,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.ForbiddenResponse"
                         }
                     },
                     "404": {
@@ -224,7 +224,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "400": {
@@ -236,13 +236,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.ForbiddenResponse"
                         }
                     },
                     "404": {
@@ -289,7 +289,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "400": {
@@ -301,13 +301,13 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.ForbiddenResponse"
                         }
                     },
                     "500": {
@@ -326,7 +326,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Mengganti password user yang sedang login. Membutuhkan JWT Bearer Token.",
+                "description": "Mengubah password user yang sedang login berdasarkan token JWT.",
                 "consumes": [
                     "application/json"
                 ],
@@ -336,10 +336,10 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Ganti password user",
+                "summary": "Ubah password user",
                 "parameters": [
                     {
-                        "description": "Payload ganti password",
+                        "description": "Payload ubah password",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -352,7 +352,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "400": {
@@ -363,6 +363,12 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/model.Response"
                         }
@@ -404,7 +410,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.LoginResponse"
+                            "$ref": "#/definitions/model.SuccessResponse"
                         }
                     },
                     "400": {
@@ -416,7 +422,7 @@ const docTemplate = `{
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/model.Response"
+                            "$ref": "#/definitions/model.UnauthorizedResponse"
                         }
                     },
                     "500": {
@@ -456,7 +462,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/model.AuthUserResponse"
+                            "$ref": "#/definitions/model.CreatedResponse"
                         }
                     },
                     "400": {
@@ -499,23 +505,6 @@ const docTemplate = `{
                 }
             }
         },
-        "model.AuthUserResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "example": "2f5d7e2a-1234-4567-8901-abcdefabcdef"
-                },
-                "role": {
-                    "type": "string",
-                    "example": "admin"
-                },
-                "username": {
-                    "type": "string",
-                    "example": "admin"
-                }
-            }
-        },
         "model.ChangePasswordRequest": {
             "type": "object",
             "properties": {
@@ -529,15 +518,22 @@ const docTemplate = `{
                 }
             }
         },
-        "model.LoginResponse": {
+        "model.CreatedResponse": {
             "type": "object",
             "properties": {
-                "token": {
+                "data": {},
+                "message": {
                     "type": "string",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx"
-                },
-                "user": {
-                    "$ref": "#/definitions/model.AuthUserResponse"
+                    "example": "data berhasil ditambahkan"
+                }
+            }
+        },
+        "model.ForbiddenResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "user tidak memiliki akses untuk fitur ini"
                 }
             }
         },
@@ -591,6 +587,25 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "detail pesan"
+                }
+            }
+        },
+        "model.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "data berhasil diambil"
+                }
+            }
+        },
+        "model.UnauthorizedResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "token tidak valid atau tidak ditemukan"
                 }
             }
         }
