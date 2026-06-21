@@ -12,6 +12,18 @@ import (
 	"gorm.io/gorm"
 )
 
+// Register godoc
+// @Summary Register user baru
+// @Description Membuat akun user baru. Role dapat diisi admin atau user. Jika role kosong, backend akan memakai default admin.
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body model.AuthRequest true "Payload register user"
+// @Success 201 {object} model.AuthUserResponse
+// @Failure 400 {object} model.Response
+// @Failure 409 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /register [post]
 func Register(c *fiber.Ctx) error {
 	var payload model.AuthRequest
 	if err := c.BodyParser(&payload); err != nil {
@@ -65,6 +77,18 @@ func Register(c *fiber.Ctx) error {
 	})
 }
 
+// Login godoc
+// @Summary Login user
+// @Description Melakukan login dan mengembalikan JWT jika username dan password valid.
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body model.AuthRequest true "Payload login user"
+// @Success 200 {object} model.LoginResponse
+// @Failure 400 {object} model.Response
+// @Failure 401 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /login [post]
 func Login(c *fiber.Ctx) error {
 	var payload model.AuthRequest
 	if err := c.BodyParser(&payload); err != nil {
@@ -112,5 +136,75 @@ func Login(c *fiber.Ctx) error {
 				Role:     user.Role,
 			},
 		},
+	})
+}
+
+// ChangePassword godoc
+// @Summary Ganti password user
+// @Description Mengganti password user yang sedang login. Membutuhkan JWT Bearer Token.
+// @Tags Auth
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body model.ChangePasswordRequest true "Payload ganti password"
+// @Success 200 {object} model.Response
+// @Failure 400 {object} model.Response
+// @Failure 401 {object} model.Response
+// @Failure 500 {object} model.Response
+// @Router /change-password [put]
+func ChangePassword(c *fiber.Ctx) error {
+	var payload model.ChangePasswordRequest
+	if err := c.BodyParser(&payload); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Message: "payload tidak valid",
+			Error:   err.Error(),
+		})
+	}
+
+	if payload.OldPassword == "" || payload.NewPassword == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(model.Response{
+			Message: "old_password dan new_password wajib diisi",
+		})
+	}
+
+	// Ambil username dari JWT claims (disimpan oleh middleware)
+	username, ok := c.Locals("username").(string)
+	if !ok || username == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(model.Response{
+			Message: "token tidak valid",
+		})
+	}
+
+	user, err := repository.FindUserByUsername(username)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(model.Response{
+			Message: "gagal mencari user",
+			Error:   err.Error(),
+		})
+	}
+
+	if !password.CheckPasswordHash(payload.OldPassword, user.Password) {
+		return c.Status(fiber.StatusUnauthorized).JSON(model.Response{
+			Message: "password lama tidak sesuai",
+		})
+	}
+
+	hashedPassword, err := password.HashPassword(payload.NewPassword)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(model.Response{
+			Message: "gagal membuat hash password",
+			Error:   err.Error(),
+		})
+	}
+
+	if err := repository.UpdateUserPassword(user.ID, hashedPassword); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(model.Response{
+			Message: "gagal mengubah password",
+			Error:   err.Error(),
+		})
+	}
+
+	return c.JSON(model.Response{
+		Message: "password berhasil diubah",
 	})
 }

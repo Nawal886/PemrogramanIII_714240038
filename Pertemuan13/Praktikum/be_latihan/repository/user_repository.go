@@ -11,6 +11,17 @@ func FindUserByUsername(username string) (model.User, error) {
 	return user, result.Error
 }
 
+func FindUserByID(id string) (model.User, error) {
+	var user model.User
+	result := config.GetDB().First(&user, "id = ?", id)
+	return user, result.Error
+}
+
+func UpdateUserPassword(id string, hashedPassword string) error {
+	result := config.GetDB().Model(&model.User{}).Where("id = ?", id).Update("password", hashedPassword)
+	return result.Error
+}
+
 func InsertUser(user *model.User) (*model.User, error) {
 	result := config.GetDB().Create(user)
 	return user, result.Error
